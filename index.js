@@ -19,7 +19,11 @@ const SimpleBlindsAccessory = require('./lib/SimpleBlindsAccessory');
 const SimpleHeaterAccessory = require('./lib/SimpleHeaterAccessory');
 const SimpleFanAccessory = require('./lib/SimpleFanAccessory');
 const SimpleFanLightAccessory = require('./lib/SimpleFanLightAccessory');
+const RFRemoteAccessory = require('./lib/RFRemoteAccessory');
+const RFFanLightAccessory = require('./lib/RFFanLightAccessory');
 const SwitchAccessory = require('./lib/SwitchAccessory');
+const MerossSwitchAccessory = require('./lib/MerossSwitchAccessory');
+
 const ValveAccessory = require('./lib/ValveAccessory');
 const OilDiffuserAccessory = require('./lib/OilDiffuserAccessory');
 
@@ -44,18 +48,21 @@ const CLASS_DEF = {
     simpleblinds: SimpleBlindsAccessory,
     simpleheater: SimpleHeaterAccessory,
     switch: SwitchAccessory,
+    merossswitch: MerossSwitchAccessory,
     fan: SimpleFanAccessory,
     fanlight: SimpleFanLightAccessory,
+    rfremote: RFRemoteAccessory,
+    rffanlight: RFFanLightAccessory,
     watervalve: ValveAccessory,
     oildiffuser: OilDiffuserAccessory
 };
 
-let Characteristic, PlatformAccessory, Service, Categories, AdaptiveLightingController, UUID;
+let Characteristic, Perms, PlatformAccessory, Service, Categories, AdaptiveLightingController, UUID;
 
 module.exports = function(homebridge) {
     ({
         platformAccessory: PlatformAccessory,
-        hap: {Characteristic, Service, AdaptiveLightingController, Accessory: {Categories}, uuid: UUID}
+        hap: {Characteristic, Perms, Service, AdaptiveLightingController, Categories, uuid: UUID}
     } = homebridge);
 
     homebridge.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, TuyaLan, true);
@@ -78,6 +85,7 @@ class TuyaLan {
         this.api.on('didFinishLaunching', () => {
             this.discoverDevices();
         });
+        this.api.on('shutdown', () => this.pluginShutdown())
     }
 
     discoverDevices() {
@@ -152,7 +160,7 @@ class TuyaLan {
                     this.log.warn('Failed to discover %s (%s) in time but will keep looking.', devices[deviceId].name, deviceId);
                 }
             });
-        }, 60000);
+        }, 10000);
     }
 
     registerPlatformAccessories(platformAccessories) {
@@ -163,18 +171,20 @@ class TuyaLan {
         // also checks null objects or empty config - this._expectedUUIDs
         if (accessory instanceof PlatformAccessory && this._expectedUUIDs && this._expectedUUIDs.includes(accessory.UUID)) {
             this.cachedAccessories.set(accessory.UUID, accessory);
+            if (accessory.context.fake) return; // aquí no existe el device aún
             accessory.services.forEach(service => {
                 if (service.UUID === Service.AccessoryInformation.UUID) return;
                 service.characteristics.some(characteristic => {
                     if (!characteristic.props ||
                         !Array.isArray(characteristic.props.perms) ||
                         characteristic.props.perms.length !== 3 ||
-                        !(characteristic.props.perms.includes(Characteristic.Perms.WRITE) && characteristic.props.perms.includes(Characteristic.Perms.NOTIFY))
+                        !(characteristic.props.perms.includes(Perms.PAIRED_WRITE) && characteristic.props.perms.includes(Perms.NOTIFY))
                     ) return;
 
                     this.log.info('Marked %s unreachable by faulting Service.%s.%s', accessory.displayName, service.displayName, characteristic.displayName);
 
-                    characteristic.updateValue(new Error('Unreachable'));
+                    characteristic.updateValue(new Error('Unreachable'))
+                        .onSet(() => {throw new this.api.hap.HapStatusError(this.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE)});
                     return true;
                 });
             });
@@ -221,7 +231,7 @@ class TuyaLan {
                 deviceConfig.name, accessory.displayName, deviceConfig.name);
             accessory.displayName = deviceConfig.name;
         }
-
+        accessory.context = deviceConfig;
         this.cachedAccessories.set(deviceConfig.UUID, new Accessory(this, accessory, device, !isCached));
     }
 
@@ -237,4 +247,17 @@ class TuyaLan {
     removeAccessoryByUUID(uuid) {
         if (uuid) this.removeAccessory(this.cachedAccessories.get(uuid));
     }
+
+    pluginShutdown() {
+        // A function that is called when the plugin fails to load or Homebridge restarts
+        try {
+            this.cachedAccessories.forEach((accessory) => {
+                accessory.device.disconnect();
+            });
+          
+        } catch (err) {
+          // No need to show errors at this point
+          this.log.error(err.message || err);
+        }
+    }    
 }

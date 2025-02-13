@@ -1,8 +1,6 @@
 {
   "name": "homebridge-tuya",
-
   "version": "3.1.1",
-
   "description": "🏠 Offical Homebridge plugin for TuyAPI ",
   "main": "index.js",
   "scripts": {
@@ -24,8 +22,10 @@
   },
   "homepage": "https://github.com/iRayanKhan/homebridge-tuya#readme",
   "dependencies": {
+    "@common.js/p-queue": "^8.0.1",
     "async": "^3.2.2",
     "commander": "^3.0.1",
+    "debounce": "^2.2.0",
     "fs-extra": "^8.1.0",
     "http-mitm-proxy": "^1.1.0",
     "json5": "^2.2.0",

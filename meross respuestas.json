@@ -1,0 +1,178 @@
+{
+    "header": {
+        "messageId": "i3swop3uitx526lcvyq9m4ladjsrq0mp",
+        "namespace": "Appliance.Control.ToggleX",
+        "triggerSrc": "iOSLocal",
+        "method": "SETACK",
+        "payloadVersion": 1,
+        "from": "/appliance/2309056557230258180148e1e9d8debd/publish",
+        "uuid": "2309056557230258180148e1e9d8debd",
+        "timestamp": 1737379162,
+        "timestampMs": 119,
+        "sign": "5bb86c4e666d94715a16830a64371cfe"
+    },
+    "payload": {}
+}
+
+
+{
+    "header": {
+        "messageId": "38h9ioq4il41qbnmfucrpa7ipimgav2m",
+        "namespace": "Appliance.System.All",
+        "triggerSrc": "iOSLocal",
+        "method": "GETACK",
+        "payloadVersion": 1,
+        "from": "/appliance/2309056557230258180148e1e9d8debd/publish",
+        "uuid": "2309056557230258180148e1e9d8debd",
+        "timestamp": 1737388889,
+        "timestampMs": 49,
+        "sign": "3bf38085dab0ca72a6d7a4a04e083637"
+    },
+    "payload": {
+        "all": {
+            "system": {
+                "hardware": {
+                    "type": "mss810",
+                    "subType": "un",
+                    "version": "7.0.0",
+                    "chipType": "rtl8710cm",
+                    "uuid": "2309056557230258180148e1e9d8debd",
+                    "macAddress": "48:e1:e9:d8:de:bd"
+                },
+                "firmware": {
+                    "version": "7.3.6",
+                    "homekitVersion": "6.3",
+                    "compileTime": "2024/12/23-14:15:53",
+                    "encrypt": 1,
+                    "wifiMac": "2c:ea:dc:4a:e7:8f",
+                    "innerIp": "192.168.1.110",
+                    "server": "mqtt-eu-5.meross.com",
+                    "port": 443,
+                    "userId": 4268990
+                },
+                "time": {
+                    "timestamp": 1737388889,
+                    "timezone": "Europe/Madrid",
+                    "timeRule": [
+                        [
+                            1729990800,
+                            3600,
+                            0
+                        ],
+                        [
+                            1743296400,
+                            7200,
+                            1
+                        ],
+                        [
+                            1761440400,
+                            3600,
+                            0
+                        ],
+                        [
+                            1774746000,
+                            7200,
+                            1
+                        ],
+                        [
+                            1792890000,
+                            3600,
+                            0
+                        ],
+                        [
+                            1806195600,
+                            7200,
+                            1
+                        ],
+                        [
+                            1824944400,
+                            3600,
+                            0
+                        ],
+                        [
+                            1837645200,
+                            7200,
+                            1
+                        ],
+                        [
+                            1856394000,
+                            3600,
+                            0
+                        ],
+                        [
+                            1869094800,
+                            7200,
+                            1
+                        ],
+                        [
+                            1887843600,
+                            3600,
+                            0
+                        ],
+                        [
+                            1901149200,
+                            7200,
+                            1
+                        ],
+                        [
+                            1919293200,
+                            3600,
+                            0
+                        ],
+                        [
+                            1932598800,
+                            7200,
+                            1
+                        ],
+                        [
+                            1950742800,
+                            3600,
+                            0
+                        ],
+                        [
+                            1964048400,
+                            7200,
+                            1
+                        ],
+                        [
+                            1982797200,
+                            3600,
+                            0
+                        ],
+                        [
+                            1995498000,
+                            7200,
+                            1
+                        ],
+                        [
+                            2014246800,
+                            3600,
+                            0
+                        ],
+                        [
+                            2026947600,
+                            7200,
+                            1
+                        ]
+                    ]
+                },
+                "online": {
+                    "status": 1,
+                    "bindId": "tgXR9741MgMbyzVe",
+                    "who": 1
+                }
+            },
+            "digest": {
+                "togglex": [
+                    {
+                        "channel": 0,
+                        "onoff": 0,
+                        "lmTime": 1737386617
+                    }
+                ],
+                "triggerx": [],
+                "timerx": []
+            }
+        }
+    }
+}

@@ -115,6 +115,30 @@
                     ]
                   },
                   {
+                    "title": "RF Remote",
+                    "enum": [
+                      "RFRemote"
+                    ]
+                  },
+                  {
+                    "title": "Switch",
+                    "enum": [
+                      "Switch"
+                    ]
+                  },
+                  {
+                    "title": "Simple RF Fan Light",
+                    "enum": [
+                      "RFFanLight"
+                    ]
+                  },
+                  {
+                    "title": "Meross Switch",
+                    "enum": [
+                      "MerossSwitch"
+                    ]
+                  },
+                  {
                     "title": "Air Purifier",
                     "enum": [
                       "AirPurifier"

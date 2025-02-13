@@ -1,0 +1,13 @@
+{
+    "type": "MerossSwitch",
+    "name": "Meross",
+    "id": "cacatuabuena",
+    "fake": true,
+    "ipAddress": "192.168.1.101",
+    "merossUserkey": "c678db3979be3cd689b3bbb951703ec0",
+    "serialNumber": "2309056557230258180148e1e9d8debd",
+    "pollInterval": 5,
+    "initState": {
+        "1": false
+    }
+},
